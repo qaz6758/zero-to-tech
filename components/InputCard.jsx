@@ -5,7 +5,7 @@
 // 请求出问题时用 try/catch 接住，在按钮上方给一行提示，不让界面无声失效。
 // 后端地址暂时写死在下面，跟着课件，这一节最后会把它收进 .env.local。
 import { useState } from "react";
-const API = process.env.NEXT_PUBLIC_API_BASE_URL;
+const API = process.env.NEXT_PUBLIC_API_URL;
 
 
 export default function InputCard({ onResult }) {
@@ -20,7 +20,7 @@ export default function InputCard({ onResult }) {
     const start = performance.now();
 
     try {
-      const res = await fetch(`${API}/api/analyze`, {
+      const res = await fetch("/api/analyze", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ text }),

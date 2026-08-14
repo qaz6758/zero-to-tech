@@ -41,7 +41,7 @@ def read_root():
 
 
 
-@app.post("/api/analyze", response_model=AnalyzeResponse)
+@app.post(`${API}/analyze`, response_model=AnalyzeResponse)
 def analyze_api(req: AnalyzeRequest):
     try:
         result = analyze_text(req.text)
