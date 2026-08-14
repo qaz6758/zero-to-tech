@@ -1,6 +1,10 @@
 from fastapi import FastAPI
-from pydantic import BaseModel
+from fastapi import HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from utils.pinyin import to_pinyin
+from ai.service import analyze_text
+from ai.schemas import AnalyzeRequest, AnalyzeResponse
+
 
 
 
@@ -9,12 +13,13 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=["http://localhost:3000"],
     allow_methods=["GET", "POST"],
+    allow_headers=["*"],
 )
 
 
 
 profile = {
-    "heroTitle": "关于我(来自后端)",
+    "heroTitle": "关于我",
     "heroSubtitle": "项目，创意，灵感，心得，我的作品",
     "featuredWork": {
         "kicker": "作品",
@@ -27,19 +32,25 @@ profile = {
     "learning": "零到全栈",
   },
 }
-class AnalyzeRequest(BaseModel):
-    text: str
+
 
 
 @app.get("/api/profile")
 def read_root():
     return profile
 
-@app.post("/api/analyze")
-def analyze(req: AnalyzeRequest):
-    return {
-        "text": req.text,
-        "score": 0.5,
-        "label": "偏平静",
-        "pinyin": "（模块 6 再说）",
-    }
+
+
+@app.post("/api/analyze", response_model=AnalyzeResponse)
+def analyze_api(req: AnalyzeRequest):
+    try:
+        result = analyze_text(req.text)
+        result["pinyin"] = to_pinyin(req.text)
+        result["text"] = req.text
+
+        return result
+    except Exception:
+        raise HTTPException(
+            status_code=503,
+            detail="AI 服务暂时不可用"
+        )

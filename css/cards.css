@@ -1,8 +1,9 @@
 .panel {
   padding: 24px 28px;
-  background: var(--surface);
+  background: #ffffff;
   border-radius: var(--radius-panel);
-  box-shadow: var(--shadow);
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+  border:1px solid #e5e7eb;
 }
 
 /* 卡片的初始状态：藏起来 + 微微下沉，等动画把它们抬起来。
@@ -10,6 +11,133 @@
 .card {
   opacity: 0;
   transform: translateY(24px);
+}
+
+.result-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.analyze-time {
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: #eef4ff;
+  color: #2563eb;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.result-item{
+    background:#fafbff;
+    border:1px solid #e8eefc;
+    border-radius:22px;
+    padding:20px;
+    transition:.25s;
+}
+
+.result-pinyin,
+.result-summary{
+    min-height:160px;
+}
+
+.result-original{
+    min-height:120px;
+}
+
+.result-two-column{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:16px;
+}
+
+
+.result-item:hover,
+.result-badge:hover{
+    transform:translateY(-4px);
+    box-shadow:0 16px 32px rgba(99,102,241,.08);
+}
+
+.keyword-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 18px;
+}
+
+.keyword-tag{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    padding:8px 16px;
+
+    border-radius:999px;
+
+    background:linear-gradient(
+        135deg,
+        #EEF4FF,
+        #F5EDFF
+    );
+
+    color:#4F46E5;
+
+    font-size:13px;
+
+    font-weight:600;
+
+    border:1px solid #E2E8F0;
+}
+
+
+
+.result-keywords{
+    min-height:100px;
+}
+
+.result-item span {
+    display: block;
+    margin-bottom: 10px;
+    color: #64748b;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.result-badge strong{
+    display:block;
+    margin-top:14px;
+    font-size:38px;
+    font-weight:700;
+    color:#2563EB;
+}
+
+.result-stack{
+    display:flex;
+    flex-direction:column;
+    gap:24px;   /* 不要18 */
+}
+
+.result-badge{
+    background:#f8faff;
+    border:1px solid #edf2ff;
+    border-radius:20px;
+    padding:20px;
+}
+
+.score-card{
+    background:linear-gradient(
+        135deg,
+        #EEF6FF,
+        #F4F8FF
+    );
+}
+
+.emotion-card{
+    background:linear-gradient(
+        135deg,
+        #F8F5FF,
+        #F2EEFF
+    );
 }
 
 .section-kicker {
@@ -96,4 +224,15 @@
   line-height: 1.4;
   letter-spacing: -0.02em;
   font-weight: 500;
+}
+
+.textlab-page {
+  min-height: 100vh;
+  background:
+    radial-gradient(
+      circle at top,
+      #eaf4ff 0%,
+      transparent 55%
+    ),
+    #f8fafc;
 }

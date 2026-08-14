@@ -11,9 +11,13 @@ const API = process.env.NEXT_PUBLIC_API_BASE_URL;
 export default function InputCard({ onResult }) {
   const [text, setText] = useState("今天的风很轻，适合把脑海里的想法慢慢写下来。");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [duration, setDuration] = useState(null);
 
   async function handleAnalyze() {
     setError("");
+    setLoading(true);
+    const start = performance.now();
 
     try {
       const res = await fetch(`${API}/api/analyze`, {
@@ -21,15 +25,19 @@ export default function InputCard({ onResult }) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ text }),
       });
-
       if (!res.ok) {
         const body = await res.json().catch(() => ({}));
         throw new Error(body.detail || `分析失败：${res.status}`);
       }
 
-      onResult(await res.json());
+      const data = await res.json();
+      onResult({ ...data, duration: ((performance.now() - start) / 1000).toFixed(2) });
     } catch (error) {
       setError(error.message);
+    } finally {
+      const end = performance.now();
+      setDuration(((end - start) / 1000).toFixed(2));
+      setLoading(false);
     }
   }
 
@@ -51,8 +59,8 @@ export default function InputCard({ onResult }) {
         {/* state 现身：text 一变，这行数字自动跟着变 */}
         <p className="lab-count">已输入 {text.length} 字</p>
         {error && <p className="lab-error">{error}</p>}
-        <button className="primary-button" type="button" onClick={handleAnalyze}>
-          开始分析
+        <button className="primary-button" type="button" onClick={handleAnalyze} disabled={loading}>
+          {loading ? "分析中..." : "开始分析"}
         </button>
       </form>
     </article>

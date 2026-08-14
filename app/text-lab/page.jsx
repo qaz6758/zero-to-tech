@@ -4,5 +4,9 @@
 import TextLabView from "../../components/TextLabView.jsx";
 
 export default function Page() {
-  return <TextLabView />;
+  return (
+    <main className="textlab-page">
+      <TextLabView />
+    </main>
+  );
 }
